@@ -15,26 +15,26 @@ import { Field, ID, ObjectType } from "type-graphql";
 import { GraphQLString } from "graphql";
 
 @ObjectType()
-@Entity("users", {schema: 'grecords_projectsdb'})
+@Entity("users", { schema: 'grecords_projectsdb' })
 export class User extends BaseEntity {
 
-  @Field(()=>ID)
+  @Field(() => ID)
   @PrimaryGeneratedColumn({ type: "int", name: "userID" })
   userId: number;
 
-  @Field(()=>GraphQLString)
+  @Field(() => GraphQLString)
   @Column("varchar", { name: "userName", length: 60 })
   userName: string;
 
-  @Field(()=>GraphQLString)
+  @Field(() => GraphQLString)
   @Column("varchar", { name: "userSurname", length: 60 })
   userSurname: string;
 
-  @Field(()=>GraphQLString)
+  @Field(() => GraphQLString)
   @Column("varchar", { name: "userEmail", length: 255 })
   userEmail: string;
 
-  @Field(()=>GraphQLString)
+  //@Field(() => GraphQLString)
   @Column("varchar", { name: "userPassword", length: 60 })
   userPassword: string;
 
@@ -42,12 +42,15 @@ export class User extends BaseEntity {
   @OneToMany(() => Comment, (comments) => comments.user)
   comments: Comment[];
 
+  @Field(()=>[Project])
   @OneToMany(() => Project, (projects) => projects.user)
   projects: Project[];
 
+  @Field(()=>[Projectstage])
   @OneToMany(() => Projectstage, (projectstages) => projectstages.user)
   projectstages: Projectstage[];
 
+  
   @ManyToMany(() => Project, (projects) => projects.users)
   @JoinTable({
     name: "selectedprojects",
