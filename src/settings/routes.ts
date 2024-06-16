@@ -8,4 +8,5 @@ export const routes=async (app: Application): Promise<void> => {
         schema: await schema,
         graphiql: true
     }))
+
 }

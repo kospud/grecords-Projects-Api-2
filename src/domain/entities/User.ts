@@ -12,13 +12,13 @@ import { Project } from "./Project.js";
 import { Projectstage } from "./Projectstage.js";
 import { Usernotification } from "./Usernotification.js";
 import { Field, ID, ObjectType } from "type-graphql";
-import { GraphQLString } from "graphql";
+import { GraphQLInt, GraphQLString } from "graphql";
 
 @ObjectType()
 @Entity("users", { schema: 'grecords_projectsdb' })
 export class User extends BaseEntity {
 
-  @Field(() => ID)
+  @Field(() => GraphQLInt)
   @PrimaryGeneratedColumn({ type: "int", name: "userID" })
   userId: number;
 
@@ -34,7 +34,7 @@ export class User extends BaseEntity {
   @Column("varchar", { name: "userEmail", length: 255 })
   userEmail: string;
 
-  //@Field(() => GraphQLString)
+
   @Column("varchar", { name: "userPassword", length: 60 })
   userPassword: string;
 

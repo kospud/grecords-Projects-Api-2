@@ -1,12 +1,12 @@
 import { BaseEntity, Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { Projectstage } from "./Projectstage.js";
 import { Field, ID, ObjectType } from "type-graphql";
-import { GraphQLString } from "graphql";
+import { GraphQLInt, GraphQLString } from "graphql";
 
 @ObjectType()
 @Entity("stagestatus", { schema: "grecords_projectsdb" })
 export class Stagestatus extends BaseEntity{
-  @Field(()=>ID)
+  @Field(()=>GraphQLInt)
   @PrimaryGeneratedColumn({ type: "int", name: "statusID" })
   statusId: number;
 

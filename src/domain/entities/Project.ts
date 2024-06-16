@@ -21,7 +21,7 @@ import { GraphQLDate } from "graphql-scalars";
 @Entity("projects", { schema: "grecords_projectsdb" })
 export class Project extends BaseEntity {
 
-  @Field(()=>ID)
+  @Field(()=>GraphQLInt)
   @PrimaryGeneratedColumn({ type: "int", name: "projectID" })
   projectId: number;
 

@@ -5,12 +5,12 @@ import { Task } from "./Task.js";
 import { Project } from "./Project.js";
 import { Field, ID, ObjectType } from "type-graphql";
 import { GraphQLInt, GraphQLString } from "graphql";
-import { GraphQLDate } from "graphql-scalars";
+
 
 @ObjectType()
 @Entity("projectstages", { schema: "grecords_projectsdb" })
 export class Projectstage extends BaseEntity {
-  @Field(()=>ID)
+  @Field(()=>GraphQLInt)
   @PrimaryColumn("int", { primary: true, name: "stageID" })
   stageId: number
 
@@ -22,23 +22,23 @@ export class Projectstage extends BaseEntity {
   @Column("int", { name: "taskID" })
   taskId: number;
 
-  @Field(()=>GraphQLInt)
+  @Field(()=>GraphQLInt, {nullable: true})
   @Column("int", { name: "userID", nullable: true })
   userId: number | null;
 
-  @Field(()=>GraphQLDate)
+  @Field(()=>GraphQLString, {nullable: true})
   @Column("date", { name: "startDatePlan", nullable: true })
   startDatePlan: Date | null;
 
-  @Field(()=>GraphQLDate)
+  @Field(()=>GraphQLString, {nullable: true})
   @Column("date", { name: "startDateFact", nullable: true })
   startDateFact: Date | null;
 
-  @Field(()=>GraphQLDate)
+  @Field(()=>GraphQLString, {nullable: true})
   @Column("date", { name: "endDatePlan", nullable: true })
   endDatePlan: Date | null;
 
-  @Field(()=>GraphQLDate)
+  @Field(()=>GraphQLString, {nullable: true})
   @Column("date", { name: "endDateFact", nullable: true })
   endDateFact: Date | null;
 
@@ -50,38 +50,38 @@ export class Projectstage extends BaseEntity {
   @Column("int", { name: "stageNumber" })
   stageNumber: number;
 
-  @Field(()=>GraphQLString)
+  @Field(()=>GraphQLString, {nullable: true})
   @Column("text", { name: "stageDescription", nullable: true })
   stageDescription: string | null;
 
   @Field(()=>User, {nullable: true})
   @ManyToOne(() => User, (user) => user.projectstages, {
-    onDelete: "RESTRICT",
-    onUpdate: "RESTRICT",
+    onDelete: "CASCADE",
+    onUpdate: "CASCADE",
   })
   @JoinColumn([{ name: "userID", referencedColumnName: "userId" }])
   user: User | null;
 
-  @Field(()=>Projectstage)
+  @Field(()=>Stagestatus)
   @ManyToOne(() => Stagestatus, (stagestatus) => stagestatus.projectstages, {
-    onDelete: "RESTRICT",
-    onUpdate: "RESTRICT",
+    onDelete: "CASCADE",
+    onUpdate: "CASCADE",
   })
   @JoinColumn([{ name: "statusID", referencedColumnName: "statusId" }])
   status: Stagestatus;
 
   @Field(()=>Task)
   @ManyToOne(() => Task, (task) => task.projectstages, {
-    onDelete: "RESTRICT",
-    onUpdate: "RESTRICT",
+    onDelete: "CASCADE",
+    onUpdate: "CASCADE",
   })
   @JoinColumn([{ name: "taskID", referencedColumnName: "taskId" }])
   task: Task;
 
   @Field(()=>Project)
   @ManyToOne(() => Project, (project) => project.projectstages, {
-    onDelete: "RESTRICT",
-    onUpdate: "RESTRICT",
+    onDelete: "CASCADE",
+    onUpdate: "CASCADE",
   })
   @JoinColumn([{ name: "projectID", referencedColumnName: "projectId" }])
   project: Project;

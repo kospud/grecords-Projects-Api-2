@@ -8,7 +8,7 @@ export class ProjectRepository implements ProjectRepositoryInterface {
     private repository = AppDataSource.getRepository(Project)
 
     async getAll(): Promise<Project[]> {
-        return await this.repository.find({ relations: ["user", "type"] });
+        return await this.repository.find();
     }
 
     async getByID(id: number): Promise<Project | null> {

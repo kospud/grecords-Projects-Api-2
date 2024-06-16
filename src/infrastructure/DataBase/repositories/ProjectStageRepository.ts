@@ -1,22 +1,24 @@
-import { DeepPartial } from "typeorm";
-import { IProjectStageRepository } from "../../../application/interfaces/projectStagesInterface.js";
+import { DeepPartial, FindManyOptions } from "typeorm";
+import { IProjectStageRepository } from "../../../application/interfaces/IProjectStagesRepository.js";
 import { Projectstage } from "../../../domain/entities/Projectstage.js";
 import { AppDataSource } from "../DataSource.js";
 
-export class ProjectStageRepository implements IProjectStageRepository{
+const querySettings={relations: ["project", "user", "task", "status"] }
 
-    private repository=AppDataSource.getRepository(Projectstage)
+export class ProjectStageRepository implements IProjectStageRepository {
+
+    private repository = AppDataSource.getRepository(Projectstage)
 
     createObject(entityLike: DeepPartial<Projectstage>): Projectstage {
         return this.repository.create(entityLike)
     }
 
-    async getAll(): Promise<Projectstage[]> {
-        return await this.repository.find()
+    async getAll(userId?: number | undefined, projectId?: number | undefined): Promise<Projectstage[]> {
+        return await this.repository.find({...querySettings, where: { userId: userId, projectId: projectId } })
     }
 
     async getByID(id: number): Promise<Projectstage | null> {
-        return await this.repository.findOneBy({stageId: id})
+        return await this.repository.findOne({ where: {stageId: id}, ...querySettings })
     }
 
     async add(entity: Projectstage): Promise<Projectstage> {
@@ -24,7 +26,8 @@ export class ProjectStageRepository implements IProjectStageRepository{
     }
 
     async update(entity: Projectstage): Promise<Projectstage | null> {
-        return await this.repository.save(entity)
+        const stage=await this.repository.save(entity)
+        return await this.getByID(stage.stageId)
     }
 
     async delete(id: number): Promise<void> {
@@ -32,6 +35,6 @@ export class ProjectStageRepository implements IProjectStageRepository{
     }
 
     getCurrentStages(): Promise<Projectstage[]> {
-        return this.repository.find({where: {statusId: 2}, relations: ["project", "user", "project.user"], relationLoadStrategy: 'query'})
+        return this.repository.find({ where: { statusId: 2 }, relations: ["project", "user", "project.user"], relationLoadStrategy: 'query' })
     }
 }

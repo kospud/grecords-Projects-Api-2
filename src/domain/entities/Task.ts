@@ -8,7 +8,7 @@ import { GraphQLInt, GraphQLString } from "graphql";
 @Entity("tasks", { schema: "grecords_projectsdb" })
 export class Task extends BaseEntity {
 
-  @Field(()=>ID)
+  @Field(()=>GraphQLInt)
   @PrimaryGeneratedColumn({ type: "int", name: "taskID" })
   taskId: number;
 

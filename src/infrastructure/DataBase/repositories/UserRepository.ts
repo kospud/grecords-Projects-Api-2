@@ -17,7 +17,11 @@ export class UserRepository implements UserRepositoryInterface {
     }
 
     async getByID(id: number): Promise<User | null> {
-        return this.repository.findOne({ where: {userId: id}})
+        return await this.repository.findOne({ where: { userId: id } })
+    }
+
+    async getByEMail(email: string): Promise<User | null> {
+        return await this.repository.findOne({where: {userEmail: email}})
     }
 
     async add(user: User): Promise<User> {
@@ -26,7 +30,7 @@ export class UserRepository implements UserRepositoryInterface {
 
     async update(user: User): Promise<User | null> {
         await this.repository.update(user.userId, user)
-        return this.repository.findOneBy({userId: user.userId})
+        return this.repository.findOneBy({ userId: user.userId })
     }
 
     async delete(id: number): Promise<void> {
