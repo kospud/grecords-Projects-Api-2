@@ -67,4 +67,5 @@ export class User extends BaseEntity {
     (usernotifications) => usernotifications.user
   )
   usernotifications: Usernotification[];
+  
 }

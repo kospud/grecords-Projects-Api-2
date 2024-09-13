@@ -29,6 +29,15 @@ export class UserResolver {
 
     @Mutation(() => User)
     async updateUser(@Arg("data", () => UpdateUserInput) data: UpdateUserInput): Promise<User | null> {
-        return await userService.updateUser(data)
+        /*const user=await User.findOneBy({userId: data.userId})
+        if(user){
+            user.userName=data.userName ?? user.userName
+            user.userEmail=data.userEmail ?? user.userEmail
+            user.userSurname=data.userSurname ?? user.userSurname
+            await user.save()
+            await user.reload()
+        }
+        return user*/
+        return userService.updateUser(data)
     }
 }
